@@ -1,8 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/gofiber/fiber/v2"
+)
 
 func main() {
-	fmt.Println("Short URL service")
-	Start()
+	fmt.Println("Short URL service started at :3000")
+	app := fiber.New()
+	Start(app)
 }

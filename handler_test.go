@@ -3,10 +3,16 @@ package main
 import (
 	"github.com/bluele/gcache"
 	"github.com/gofiber/fiber/v2"
+	"github.com/stretchr/testify/assert"
+	"net/http/httptest"
 	"sync"
+	"testing"
 )
 
-func Start(app *fiber.App) {
+func TestURLs_Handle(t *testing.T) {
+	app := fiber.New()
+	defer app.Shutdown()
+
 	urls := URLs{
 		Cache: gcache.New(1000000).
 			ARC().Build(),
@@ -18,5 +24,9 @@ func Start(app *fiber.App) {
 	app.Get("url/:url", urls.Handle)
 	app.Get("metrics", urls.metrics)
 
-	app.Listen(":3000")
+	req := httptest.NewRequest("GET", "/url/abc.com", nil)
+	resp, _ := app.Test(req, 1)
+
+	assert.Equal(t, resp, assert.Equal(t, resp, nil))
+
 }
